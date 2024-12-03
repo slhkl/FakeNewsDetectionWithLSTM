@@ -5,6 +5,7 @@ from tensorflow.keras.layers import Dense, Dropout, Embedding, LSTM
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 
 train = pd.read_csv('datasets/fake-news/train.csv')
 test = pd.read_csv('datasets/fake-news/test.csv')
@@ -100,3 +101,19 @@ lstm_prediction = lstm_model.predict(test_text)
 lstm_prediction_vec = np.argmax(lstm_prediction, axis=1)
 
 print("lstm_prediction", lstm_prediction_vec)
+
+y_test_subset = y_test[:len(lstm_prediction_vec)];
+lstm_prediction_vec_subset = lstm_prediction_vec[:len(y_test)];
+
+accuracy = accuracy_score(y_test_subset, lstm_prediction_vec_subset)
+precision = precision_score(y_test_subset, lstm_prediction_vec_subset, average='weighted')
+recall = recall_score(y_test_subset, lstm_prediction_vec_subset, average='weighted')
+f1 = f1_score(y_test_subset, lstm_prediction_vec_subset, average='weighted')
+
+classification_rep = classification_report(y_test_subset, lstm_prediction_vec_subset)
+
+print(f"Accuracy: {accuracy:.2f}")
+print(f"Precision: {precision:.2f}")
+print(f"Recall: {recall:.2f}")
+print(f"F1-Score: {f1:.2f}")
+print("\nClassification Report:\n", classification_rep)
