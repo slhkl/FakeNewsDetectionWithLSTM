@@ -101,16 +101,23 @@ lstm_prediction = lstm_model.predict(test_text)
 lstm_prediction_vec = np.argmax(lstm_prediction, axis=1)
 
 print("lstm_prediction", lstm_prediction_vec)
+print(lstm_prediction_vec.shape)
 
-y_test_subset = y_test[:len(lstm_prediction_vec)];
-lstm_prediction_vec_subset = lstm_prediction_vec[:len(y_test)];
+real_results = pd.read_csv('datasets/fake-news/submit.csv')
+real_results = real_results["label"]
 
-accuracy = accuracy_score(y_test_subset, lstm_prediction_vec_subset)
-precision = precision_score(y_test_subset, lstm_prediction_vec_subset, average='weighted')
-recall = recall_score(y_test_subset, lstm_prediction_vec_subset, average='weighted')
-f1 = f1_score(y_test_subset, lstm_prediction_vec_subset, average='weighted')
+#TODO delete
+#real_results = real_results[:10]
 
-classification_rep = classification_report(y_test_subset, lstm_prediction_vec_subset)
+print("real_results", real_results)
+print(real_results.shape)
+
+accuracy = accuracy_score(real_results, lstm_prediction_vec)
+precision = precision_score(real_results, lstm_prediction_vec, average='weighted')
+recall = recall_score(real_results, lstm_prediction_vec, average='weighted')
+f1 = f1_score(real_results, lstm_prediction_vec, average='weighted')
+
+classification_rep = classification_report(real_results, lstm_prediction_vec)
 
 print(f"Accuracy: {accuracy:.2f}")
 print(f"Precision: {precision:.2f}")
