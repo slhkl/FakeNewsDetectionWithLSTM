@@ -75,7 +75,7 @@ lstm_model.add(layer = Dense(units = len(set(y)),  activation = 'sigmoid', name 
 # compiling the model
 lstm_model.compile(optimizer = 'adam', loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
 
-lstm_model_fit = lstm_model.fit(X_train, y_train, epochs = 1)
+lstm_model_fit = lstm_model.fit(X_train, y_train, epochs = 10, batch_size = 256)
 
 test_data = test.copy()
 print('test_data shape', test_data.shape)
