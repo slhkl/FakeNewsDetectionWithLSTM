@@ -5,7 +5,7 @@ from tensorflow.keras.layers import Dense, Dropout, Embedding, LSTM
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix
 
 train = pd.read_csv('datasets/fake-news/train.csv')
 test = pd.read_csv('datasets/fake-news/test.csv')
@@ -116,6 +116,7 @@ accuracy = accuracy_score(real_results, lstm_prediction_vec)
 precision = precision_score(real_results, lstm_prediction_vec, average='weighted')
 recall = recall_score(real_results, lstm_prediction_vec, average='weighted')
 f1 = f1_score(real_results, lstm_prediction_vec, average='weighted')
+confisiun_matrix = confusion_matrix(real_results, lstm_prediction_vec)
 
 classification_rep = classification_report(real_results, lstm_prediction_vec)
 
@@ -124,3 +125,4 @@ print(f"Precision: {precision:.2f}")
 print(f"Recall: {recall:.2f}")
 print(f"F1-Score: {f1:.2f}")
 print("\nClassification Report:\n", classification_rep)
+print(f"Confisiun Matrix:\n {confisiun_matrix}")
